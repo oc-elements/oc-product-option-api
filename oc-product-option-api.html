@@ -1,0 +1,119 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../oc-core-utils/oc-api-provider-behaviour.html">
+
+<!--
+`oc-product-option-api`
+Element for consuming the Ordercloud Product Option API
+
+@demo demo/index.html 
+-->
+
+<dom-module id="oc-product-option-api">
+  <template>
+    <iron-ajax id="getOptionSets"></iron-ajax>
+    <iron-ajax id="createOptionSet"></iron-ajax>
+    <iron-ajax id="deleteOptionSet"></iron-ajax>
+    <iron-ajax id="updateOptionSet"></iron-ajax>
+    <iron-ajax id="getOptionSet"></iron-ajax>
+
+    <iron-ajax id="createOption"></iron-ajax>
+    <iron-ajax id="getOptions"></iron-ajax>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'oc-product-option-api',
+      behaviors: [OC.Behaviours.ApiProvider],
+
+      /**
+       * Return all Option Sets of an organisation
+       *
+       * @param {{ name:String, displayName:String, description:String }} optionSet
+       * @return {Promise}
+       */
+      getOptionSets: function() {
+        this.$.getOptionSets.url = this._url('product/options/set');
+        return this._generateRequest(this.$.getOptionSets);
+      },
+
+      /**
+       * Create a new option set for an Organisation
+       *
+       * @param {{ name:String, displayName:String, description:String }} optionSet
+       * @return {Promise}
+       */
+      createOptionSet: function(optionSet) {
+        this.$.createOptionSet.url = this._url('product/options/set');
+        this.$.createOptionSet.method = "POST";
+        this.$.createOptionSet.contentType = "application/json";
+        this.$.createOptionSet.body = optionSet;
+        return this._generateRequest(this.$.createOptionSet);
+      },
+
+      /**
+       * Delete an option set of an Organisation
+       *
+       * @param optionSetId Number
+       * @return {Promise}
+       */
+      deleteOptionSet: function(optionSetId) {
+        this.$.deleteOptionSet.url = this._url('product/options/set/' + optionSetId);
+        this.$.deleteOptionSet.method = "DELETE";
+        this.$.deleteOptionSet.contentType = "application/json";
+        return this._generateRequest(this.$.deleteOptionSet);
+      },
+
+      /**
+       * Update an option set of an Organisation
+       *
+       * @param {{ name:String, displayName:String, description:String }} optionSet
+       * @return {Promise}
+       */
+      updateOptionSet: function(optionSetId, optionSet) {
+        this.$.updateOptionSet.url = this._url('product/options/set/' + optionSetId);
+        this.$.updateOptionSet.method = "PUT";
+        this.$.updateOptionSet.contentType = "application/json";
+        this.$.updateOptionSet.body = optionSet;
+        return this._generateRequest(this.$.updateOptionSet);
+      },
+
+      /**
+       * Get an Option Set of an organisation
+       *
+       * @param optionSetId Number
+       * @return {Promise}
+       */
+      getOptionSet: function(optionSetId) {
+        this.$.getOptionSet.url = this._url('product/options/set/' + optionSetId);
+        return this._generateRequest(this.$.getOptionSet);
+      },
+
+      /**
+       * Create a new option for an Organisation
+       *
+       * @param organisationId Number
+       * @param {{ name:String, description:String, price:Number, setId:Number, itemsPluFlatMappingEnabled:Boolean }} option
+       * @return {Promise}
+       */
+      createOption: function(organisationId, option) {
+        this.$.createOption.url = this._url('product/options/organisation/' + organisationId);
+        this.$.createOption.method = "POST";
+        this.$.createOption.contentType = "application/json";
+        this.$.createOption.body = option;
+        return this._generateRequest(this.$.createOption);
+      },
+
+      /**
+       * Return all Option Sets of an organisation
+       *
+       * @param {{ name:String, displayName:String, description:String }} optionSet
+       * @return {Promise}
+       */
+      getOptions: function() {
+        this.$.getOptions.url = this._url('product/options/organisation/' + organisationId);
+        return this._generateRequest(this.$.getOptions);
+      },
+    });
+  </script>
+</dom-module>
