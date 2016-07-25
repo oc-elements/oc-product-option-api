@@ -19,6 +19,7 @@ Element for consuming the Ordercloud Product Option API
 
     <iron-ajax id="createOption"></iron-ajax>
     <iron-ajax id="getOptions"></iron-ajax>
+    <iron-ajax id="deleteOption"></iron-ajax>
   </template>
 
   <script>
@@ -107,13 +108,26 @@ Element for consuming the Ordercloud Product Option API
       /**
        * Return all Option Sets of an organisation
        *
-       * @param {{ name:String, displayName:String, description:String }} optionSet
+       * @param organisationId Number
        * @return {Promise}
        */
-      getOptions: function() {
+      getOptions: function(organisationId) {
         this.$.getOptions.url = this._url('product/options/organisation/' + organisationId);
         return this._generateRequest(this.$.getOptions);
       },
+
+      /**
+       * Delete a specific option
+       *
+       * @param optionId Number
+       * @return {Promise}
+       */
+      deleteOption: function(optionId) {
+        this.$.deleteOption.url = this._url('product/options/' + optionId);
+        this.$.deleteOption.method = "DELETE";
+        this.$.deleteOption.contentType = "application/json";
+        return this._generateRequest(this.$.deleteOption);
+      }
     });
   </script>
 </dom-module>
