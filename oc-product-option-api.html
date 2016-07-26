@@ -30,11 +30,10 @@ Element for consuming the Ordercloud Product Option API
       /**
        * Return all Option Sets of an organisation
        *
-       * @param {{ name:String, displayName:String, description:String }} optionSet
        * @return {Promise}
        */
-      getOptionSets: function() {
-        this.$.getOptionSets.url = this._url('product/options/set');
+      getOptionSets: function(page, pageSize) {
+        this.$.getOptionSets.url = this._url('product/options/set?page=' + page + '&pageSize=' + pageSize);
         return this._generateRequest(this.$.getOptionSets);
       },
 
