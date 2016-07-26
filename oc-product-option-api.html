@@ -33,7 +33,7 @@ Element for consuming the Ordercloud Product Option API
        * @return {Promise}
        */
       getOptionSets: function(page, pageSize) {
-        this.$.getOptionSets.url = this._url('product/options/set?page=' + page + '&pageSize=' + pageSize);
+        this.$.getOptionSets.url = this._url('product/options/set?page=' + page + '&pagesize=' + pageSize);
         return this._generateRequest(this.$.getOptionSets);
       },
 
