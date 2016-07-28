@@ -18,8 +18,12 @@ Element for consuming the Ordercloud Product Option API
     <iron-ajax id="getOptionSet"></iron-ajax>
 
     <iron-ajax id="createOption"></iron-ajax>
+    <iron-ajax id="updateOption"></iron-ajax>
     <iron-ajax id="getOptions"></iron-ajax>
+    <iron-ajax id="getOption"></iron-ajax>
     <iron-ajax id="deleteOption"></iron-ajax>
+    <iron-ajax id="addUnlockOptionSet"></iron-ajax>
+    <iron-ajax id="removeUnlockOptionSet"></iron-ajax>
   </template>
 
   <script>
@@ -116,6 +120,31 @@ Element for consuming the Ordercloud Product Option API
       },
 
       /**
+       * Get a specific option
+       *
+       * @param optionId Number
+       * @return {Promise}
+       */
+      getOption: function(optionId) {
+        this.$.getOption.url = this._url('product/options/' + optionId);
+        return this._generateRequest(this.$.getOption);
+      },
+
+      /**
+       * Update an option
+       * @param optionId Number
+       * @param {{ name: String, description: String, price: Number, setId: Number, itemsPluFlatMappingEnabled: false }} option
+       * @return {Promise}
+       */
+      updateOption: function(optionId, option) {
+        this.$.updateOption.url = this._url('product/options/' + optionId);
+        this.$.updateOption.method = "PUT";
+        this.$.updateOption.contentType = "application/json";
+        this.$.updateOption.body = option;
+        return this._generateRequest(this.$.updateOption);
+      },
+
+      /**
        * Delete a specific option
        *
        * @param optionId Number
@@ -126,7 +155,36 @@ Element for consuming the Ordercloud Product Option API
         this.$.deleteOption.method = "DELETE";
         this.$.deleteOption.contentType = "application/json";
         return this._generateRequest(this.$.deleteOption);
-      }
+      },
+
+      /**
+       * Add unlock option set for option
+       *
+       * @param optionId Number
+       * @param optionSetId Number
+       * @return {Promise}
+       */
+      addUnlockOptionSet: function(optionId, optionSetId) {
+        this.$.addUnlockOptionSet.url = this._url('product/options/'+ optionId +'/unlock/options/set/' + optionSetId);
+        this.$.addUnlockOptionSet.method = "PUT";
+        this.$.addUnlockOptionSet.contentType = "application/json";
+        return this._generateRequest(this.$.addUnlockOptionSet);
+      },
+
+      /**
+       * Remove unlock option set for option
+       *
+       * @param optionId Number
+       * @param optionSetId Number
+       * @return {Promise}
+       */
+      removeUnlockOptionSet: function(optionId, optionSetId) {
+        this.$.removeUnlockOptionSet.url = this._url('product/options/'+ optionId +'/unlock/options/set/' + optionSetId);
+        this.$.removeUnlockOptionSet.method = "DELETE";
+        this.$.removeUnlockOptionSet.contentType = "application/json";
+        return this._generateRequest(this.$.removeUnlockOptionSet);
+      },
+
     });
   </script>
 </dom-module>
